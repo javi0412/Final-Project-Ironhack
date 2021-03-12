@@ -20,7 +20,8 @@ public class Party {
     private List<Users> userList;
     @OneToMany(mappedBy = "party")
     private List<Expense> expenses;
-//    private Map<String, Map<String, Double> > balanceSheet;
+
+
 
 
     public Party(Integer id, String name, List<Users> userList) {

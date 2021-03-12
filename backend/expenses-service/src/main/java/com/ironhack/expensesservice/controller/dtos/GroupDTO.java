@@ -44,4 +44,6 @@ public class GroupDTO {
     public void setUserList(List<UserDTO> userList) {
         this.userList = userList;
     }
+
+
 }

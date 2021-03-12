@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class GroupController implements IGroupController {
 
     @Autowired
@@ -18,13 +19,13 @@ public class GroupController implements IGroupController {
 
     @GetMapping("/groups")
     @ResponseStatus(HttpStatus.OK)
-    public List<GroupDTO> getAll() {
+    public List<GroupDTO> getAllGroups() {
         return groupService.getAll();
     }
 
     @GetMapping("/group/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public GroupDTO getById(@PathVariable Integer id) {
+    public GroupDTO getGroupById(@PathVariable Integer id) {
         return groupService.getById(id);
     }
 

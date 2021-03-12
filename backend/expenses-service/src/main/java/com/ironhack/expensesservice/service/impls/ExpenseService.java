@@ -15,8 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class ExpenseService implements IExpenseService {
@@ -49,6 +53,7 @@ public class ExpenseService implements IExpenseService {
             userDTO.setName(user.getName());
             userDTO.setEmail(user.getEmail());
             userDTO.setPhone(user.getPhone());
+            userDTO.setBalanceSheet(user.getBalanceSheet());
             expenseDTO.setPaidBy(userDTO);
             expenseDTOS.add(expenseDTO);
         }
@@ -76,8 +81,29 @@ public class ExpenseService implements IExpenseService {
         expenseDTO.setAmount(expense.getAmount());
         expenseDTO.setPartyId(expense.getParty().getId());
         expenseDTO.setCreationDate(expense.getCreationDate());
+        List<Users> userList = expense.getParty().getUserList();
+        BigDecimal splitAmount = expenseDTO.getAmount().divide(BigDecimal.valueOf(userList.size()),2, RoundingMode.HALF_UP);
+        Users paidBy = userRepository.findById(expenseDTO.getPaidBy().getId()).get();
+        String paidByName = paidBy.getName();
+        for(int i = 0; i<userList.size();i++){
+            Map<String, Double> map = userList.get(i).getBalanceSheet();
+            if(userList.get(i).getId() == paidBy.getId()){
+                for(int j = 0;j<userList.get(i).getBalanceSheet().size() ;j++){
+                    Set<String> keySet = map.keySet();
+                    map.replace((String) keySet.toArray()[j],map.get(keySet.toArray()[j])+splitAmount.doubleValue());
+                }
+            } else{
+                    map.replace(paidByName,map.get(paidByName)-splitAmount.doubleValue());
+                }
+            userList.get(i).setBalanceSheet(map);
+            userService.update(userList.get(i).getId(), userList.get(i));
+        }
+
         return expenseDTO;
+
     }
+
+
 
     public ExpenseDTO deleteExpense(Integer id) {
         if(!expenseRepository.existsById(id)){
@@ -98,10 +124,6 @@ public class ExpenseService implements IExpenseService {
         expenseDTO.setPaidBy(userDTO);
         expenseRepository.deleteById(id);
         return expenseDTO;
-    }
-
-    public void splitter(){
-
     }
 
 

@@ -3,19 +3,21 @@ package com.ironhack.expensesservice.service.impls;
 import com.ironhack.expensesservice.controller.dtos.AddGroupDTO;
 import com.ironhack.expensesservice.controller.dtos.GroupDTO;
 import com.ironhack.expensesservice.controller.dtos.UserDTO;
+import com.ironhack.expensesservice.model.Expense;
 import com.ironhack.expensesservice.model.Party;
 import com.ironhack.expensesservice.model.Users;
+import com.ironhack.expensesservice.repository.ExpenseRepository;
 import com.ironhack.expensesservice.repository.GroupRepository;
 import com.ironhack.expensesservice.repository.UserRepository;
 import com.ironhack.expensesservice.service.interfaces.IGroupService;
+import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class GroupService implements IGroupService {
@@ -28,6 +30,10 @@ public class GroupService implements IGroupService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ExpenseRepository expenseRepository;
+
 
     public List<GroupDTO> getAll() {
         List<GroupDTO> groupDTOs = new ArrayList<>();
@@ -44,6 +50,7 @@ public class GroupService implements IGroupService {
                 userDTO.setName(user.getName());
                 userDTO.setEmail(user.getEmail());
                 userDTO.setPhone(user.getPhone());
+                userDTO.setBalanceSheet(user.getBalanceSheet());
                 userDTOs.add(userDTO);
             }
             groupDTO.setUserList(userDTOs);
@@ -70,6 +77,7 @@ public class GroupService implements IGroupService {
             userDTO.setName(user.getName());
             userDTO.setEmail(user.getEmail());
             userDTO.setPhone(user.getPhone());
+            userDTO.setBalanceSheet(user.getBalanceSheet());
             userDTOs.add(userDTO);
         }
         groupDTO.setUserList(userDTOs);
@@ -84,19 +92,29 @@ public class GroupService implements IGroupService {
         group.setName(addGroupDTO.getName());
         List<UserDTO> userDTOS = new ArrayList<>();
         List<Users> userList = new ArrayList<>();
-        for(Integer userId: addGroupDTO.getUserIdList()){
-            UserDTO userDTO = userService.getById(userId);
+        for(int i = 0;i<addGroupDTO.getUserIdList().size();i++){
+            UserDTO userDTO = userService.getById(addGroupDTO.getUserIdList().get(i));
             userDTOS.add(userDTO);
             Users user = new Users();
             user.setId(userDTO.getId());
             user.setName(userDTO.getName());
             user.setEmail(userDTO.getEmail());
             user.setPhone(userDTO.getPhone());
-//            Users user = userRepository.findById(userId).get();
+            Map<String, Double> balanceSheet = new HashMap<>();
+            user.setBalanceSheet(balanceSheet);
+            for(int j =0;j<addGroupDTO.getUserIdList().size();j++){
+                if(i!=j){
+                    user.addBalanceSheet(userService.getById(addGroupDTO.getUserIdList().get(j)).getName(), 0d  );
+                }
+            }
+            userDTO.setBalanceSheet(user.getBalanceSheet());
             userList.add(user);
+            userDTOS.add(userDTO);
+            userService.update(addGroupDTO.getUserIdList().get(i),user);
         }
-        groupDTO.setUserList(userDTOS);
+
         group.setUserList(userList);
+        groupDTO.setUserList(userDTOS);
         group = groupRepository.save(group);
         groupDTO.setId(group.getId());
         return groupDTO;
@@ -116,7 +134,12 @@ public class GroupService implements IGroupService {
             userDTO.setName(user.getName());
             userDTO.setEmail(user.getEmail());
             userDTO.setPhone(user.getPhone());
+            userDTO.setBalanceSheet(user.getBalanceSheet());
             userDTOs.add(userDTO);
+        }
+        List<Expense> expenseList = expenseRepository.getExpensesByGroupId(id);
+        for(Expense expense :expenseList){
+            expenseRepository.deleteById(expense.getId());
         }
         groupDTO.setUserList(userDTOs);
         groupRepository.deleteById(id);

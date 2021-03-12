@@ -1,7 +1,9 @@
 package com.ironhack.expensesservice.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Users {
@@ -16,7 +18,9 @@ public class Users {
     private List<Party> parties;
     @OneToMany(mappedBy = "paidBy")
     private List<Expense> expenses;
-
+    @ElementCollection(targetClass = Double.class)
+    @MapKeyClass(String.class)
+    private Map<String, Double> balanceSheet;
 
     public Users(String name, String email, String phone) {
         this.name = name;
@@ -32,6 +36,7 @@ public class Users {
     }
 
     public Users() {
+
     }
 
     public Integer getId() {
@@ -66,4 +71,31 @@ public class Users {
         this.phone = phone;
     }
 
+    public List<Party> getParties() {
+        return parties;
+    }
+
+    public void setParties(List<Party> parties) {
+        this.parties = parties;
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+    }
+
+    public Map<String, Double> getBalanceSheet() {
+        return balanceSheet;
+    }
+
+    public void setBalanceSheet(Map<String, Double> balanceSheet) {
+        this.balanceSheet = balanceSheet;
+    }
+
+    public void addBalanceSheet(String user, Double balance) {
+        this.balanceSheet.put(user, balance);
+    }
 }

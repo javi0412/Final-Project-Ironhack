@@ -9,7 +9,9 @@ import listPlugin from '@fullcalendar/list';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatListModule} from '@angular/material/list';
 
 
 
@@ -22,13 +24,11 @@ import { UserComponent } from './user/user.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ToDoComponent } from './to-do/to-do.component';
+import { ToDoComponent } from './todo/to-do.component';
 import { UserCardComponent } from './user-card/user-card.component';
 import { GroupComponent } from './group/group.component';
-import { GroupCardComponent } from './group-card/group-card.component';
+import { BalanceComponent } from './balance/balance.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -45,12 +45,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     UserComponent, 
     CalendarComponent,
     ExpensesComponent,
-    HeaderComponent,
-    FooterComponent,
     ToDoComponent,
     UserCardComponent,
     GroupComponent,
-    GroupCardComponent
+    BalanceComponent
   ],
   imports: [
     BrowserModule,
@@ -63,9 +61,16 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MatTabsModule, 
     MatInputModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule
+
   ],
-  providers: [],
+  providers: [
+    MatDatepickerModule,  
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

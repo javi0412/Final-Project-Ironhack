@@ -1,10 +1,12 @@
 export class Todo {
 
+    private _creationDate: Date;
+    private _isDone: boolean;
+
+
     constructor(
         private _id: number, 
-        private _creationDate: Date, 
         private _description: string, 
-        private _isDone: boolean,
         private _dueDate?: Date
     ){}
     

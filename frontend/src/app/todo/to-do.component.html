@@ -1,0 +1,38 @@
+<div class="container">
+      <form [formGroup]="form">
+  
+            <mat-form-field class="example-full-width">
+              <mat-label  for="description">Description</mat-label>
+              <input matInput formControlName="description" type=text name="description" [(ngModel)]="description">
+            </mat-form-field><br>
+          <p class="error-msg" *ngIf="descriptionField.hasError('required') && descriptionField.touched && descriptionField.pristine"> Description is required </p>
+  
+          <mat-form-field appearance="fill">
+            <mat-label>Choose a due date (if needed)</mat-label>
+            <input matInput formControlName="dueDate" [matDatepicker]="picker" [(ngModel)]="dueDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+            
+          <br><br>
+  
+          <button mat-button color="primary" type="submit" [disabled]="form.invalid" (click) = "addNewTask()">Submit</button>
+          <button class = 'button-red' (click)='removeTasks()'>Delete all tasks</button>
+          <button class = 'button-green' (click)='removeDoneTasks()'>Remove done tasks </button>
+  
+      </form>
+    </div>
+      <div>
+        <mat-list  *ngFor="let todo of todoList; let i=index" [ngClass]="{'row':true, 'completed':todo.isDone===true}">
+            <div>
+                <mat-list-item>{{i+1}} - {{todo.description}}</mat-list-item>    
+                <button (click)='markAsDone(todo)' > Mark as done/undone</button> 
+                </div>  
+        </mat-list>
+      </div>
+  
+
+
+
+

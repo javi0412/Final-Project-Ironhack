@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient("todo-service")
+@FeignClient("todos-service")
 public interface TodoClient {
 
     @GetMapping("/todos")

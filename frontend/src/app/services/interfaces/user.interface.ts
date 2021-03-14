@@ -30,30 +30,16 @@ export interface IGroup{
 
 }
 
-// {
-//     "id": 1,
-//     "amount": 125.36,
-//     "description": "Visas",
-//     "paidBy": {
-//         "id": 1,
-//         "name": "Victor",
-//         "email": "javiicc94@gmail.com",
-//         "phone": "677518326",
-//         "balanceSheet": {
-//             "Javi": 62.68
-//         }
-//     },
-//     "partyId": 1,
-//     "creationDate": "2021-03-14T16:05:31.108+00:00"
-// }
 
 export interface IExpense{
     id:number, 
     amount: number, 
     description:string, 
     paidBy:{
+        id:number,
         name:string
     },
+    partyId:number,
     creationDate:Date 
 
 }

@@ -18,6 +18,10 @@ export class ExpenseServiceService {
     return this.http.post<IExpense>('http://localhost:8083/expense', this.expenseBody(addExpense));
   }
 
+  getAllExpenses(partyId:number):Observable<IExpense[]>{
+    return this.http.get<IExpense[]>('http://localhost:8081/expenses/' + partyId);
+  }
+
   expenseBody(addExpense:AddExpense):any{
     let expenseBody:any={
       amount:addExpense.amount,

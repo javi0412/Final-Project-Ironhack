@@ -29,6 +29,7 @@ export class ExpensesComponent implements OnInit {
   party:Group;
   partyId:number;
   selectedParty:Group;
+  displayedExpensesPartyId:number;
 
 
   partyList:Group[] = [];
@@ -37,6 +38,7 @@ export class ExpensesComponent implements OnInit {
   userList:User[] = [];
 
   expenseList: Expense[] = [];
+  expenseListDB: Expense[] = [];
   expenseUser:User;
 
   constructor(
@@ -59,7 +61,8 @@ export class ExpensesComponent implements OnInit {
 
   ngOnInit(): void {
     this.addGroupsFromDB()
-    console.log(this.partyList)
+    this.addExpensesFromDB();
+    console.log(this.expenseListDB)
 
   }
 
@@ -71,11 +74,39 @@ export class ExpensesComponent implements OnInit {
            let user:User = new User(data[i].userList[j].id, data[i].userList[j].name, data[i].userList[j].email, data[i].userList[j].phone);
             this.userList.push(user);
         }
-        let group:Group = new Group(data[i].id, data[i].name, this.userList, []);
+        let group:Group = new Group(data[i].id, data[i].name, this.userList);
         this.partyList.push(group);
       }
 
     })
+  }
+
+  addExpensesFromDB():void{
+    this.expenseService.getAllExpenses(1).subscribe(dataResult=>{
+      this.expenseListDB = [];
+      for(let i=0; i<dataResult.length;i++){
+        this.userService.getUserById(dataResult[i].paidBy.id).subscribe(data=>{
+          this.expenseUser = new User(data.id, data.name, data.email, data.phone);
+        })
+        let expense:Expense = new Expense(dataResult[i].id, dataResult[i].amount, dataResult[i].description, this.expenseUser,dataResult[i].partyId, dataResult[i].creationDate);
+        this.expenseListDB.push(expense);
+      }
+    })
+
+  }
+
+  updateExpensesFromDB():void{
+    this.expenseService.getAllExpenses(1).subscribe(dataResult=>{
+      this.expenseListDB = [];
+      for(let i=0; i<dataResult.length;i++){
+        this.userService.getUserById(dataResult[i].paidBy.id).subscribe(data=>{
+          this.expenseUser = new User(data.id, data.name, data.email, data.phone);
+        })
+        let expense:Expense = new Expense(dataResult[i].id, dataResult[i].amount, dataResult[i].description, this.expenseUser,dataResult[i].partyId, dataResult[i].creationDate);
+        this.expenseListDB.push(expense);
+      }
+    })
+
   }
 
   onPartyChange(e) {
@@ -90,7 +121,7 @@ export class ExpensesComponent implements OnInit {
       this.userService.getUserById(Number(this.paidById)).subscribe(data=>{
         this.expenseUser = new User(data.id, data.name, data.email, data.phone);
       })
-      let expense:Expense = new Expense(dataResult.id, dataResult.amount, dataResult.description, this.expenseUser, this.partyId, dataResult.creationDate)
+      let expense:Expense = new Expense(dataResult.id, dataResult.amount, dataResult.description, this.expenseUser, dataResult.partyId, dataResult.creationDate)
       this.expenseList.push(expense);
     })
   }

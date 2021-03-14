@@ -16,7 +16,7 @@ export class GroupServiceService {
   ) { }
 
   storeGroup(group:AddGroup):Observable<Group>{
-    return this.http.post<Group>('http://localhost:8083/group/', this.groupBody(group));
+    return this.http.post<Group>('http://localhost:8081/group/', this.groupBody(group));
   }
 
   getAllGroups():Observable<IGroup[]>{

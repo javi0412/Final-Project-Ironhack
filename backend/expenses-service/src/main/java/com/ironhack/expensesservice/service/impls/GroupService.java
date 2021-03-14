@@ -1,6 +1,7 @@
 package com.ironhack.expensesservice.service.impls;
 
 import com.ironhack.expensesservice.controller.dtos.AddGroupDTO;
+import com.ironhack.expensesservice.controller.dtos.BalanceDTO;
 import com.ironhack.expensesservice.controller.dtos.GroupDTO;
 import com.ironhack.expensesservice.controller.dtos.UserDTO;
 import com.ironhack.expensesservice.model.Expense;
@@ -10,7 +11,6 @@ import com.ironhack.expensesservice.repository.ExpenseRepository;
 import com.ironhack.expensesservice.repository.GroupRepository;
 import com.ironhack.expensesservice.repository.UserRepository;
 import com.ironhack.expensesservice.service.interfaces.IGroupService;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.IntStream;
 
 @Service
 public class GroupService implements IGroupService {
@@ -144,5 +145,25 @@ public class GroupService implements IGroupService {
         groupRepository.deleteById(id);
 
         return groupDTO;
+    }
+
+    public List<BalanceDTO> getBalance(Integer id) {
+        List<Integer> idList = groupRepository.getIdsFromParty();
+        List<List<Double>> balanceSheet = new ArrayList<>();
+        List<Double> summedBalance =new ArrayList<>();
+        for(int i = 0; i<idList.size();i++){
+            List<Double> balanceList= userRepository.getNamesFromParty(idList.get(i));
+            balanceSheet.add(balanceList);
+            Double summed = 0d;
+            for(int j = 0;j<balanceSheet.get(i).size();j++){
+                summed  += balanceSheet.get(i).get(j);
+            }
+            summedBalance.add(summed);
+        }
+        int minIndex = summedBalance.indexOf(Collections.min(summedBalance));
+
+        List<BalanceDTO> balance = new ArrayList<>();
+
+        return null;
     }
 }

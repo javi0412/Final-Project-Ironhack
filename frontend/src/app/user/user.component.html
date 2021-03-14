@@ -2,9 +2,6 @@
   <p> WELCOME!!</p>
     <form [formGroup]="form">
 
-       <!-- <input type="text" class="form-control" aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-default" placeholder="  Name" [(ngModel)]="trainerName"
-            required #inputName="ngModel" name="name"> -->
           <mat-form-field class="example-full-width">
             <mat-label  for="name">Name</mat-label>
             <input matInput formControlName="name" type=text name="name" [(ngModel)]="userName">

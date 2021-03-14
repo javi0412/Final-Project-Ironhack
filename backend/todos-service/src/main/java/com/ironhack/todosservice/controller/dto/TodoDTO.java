@@ -15,7 +15,7 @@ public class TodoDTO {
         this.creationDate = new Date();
         this.description = description;
         this.dueDate = dueDate;
-        this.isDone = isDone;
+        this.isDone = false;
     }
 
     public TodoDTO(Integer id, Date creationDate, String description, Date dueDate, boolean isDone) {
@@ -23,11 +23,12 @@ public class TodoDTO {
         this.creationDate = new Date();
         this.description = description;
         this.dueDate = dueDate;
-        this.isDone = isDone;
+        this.isDone = false;
     }
 
     public TodoDTO() {
         this.creationDate = new Date();
+        this.isDone = false;
     }
 
     public Integer getId() {

@@ -6,9 +6,7 @@ export class Group {
     constructor(
         private _id: number, 
         private _name: string, 
-        private _userList: User[],
-        private _expenseList?: Expense[]
-    ){}
+        private _userList: User[]    ){}
 
     public get id(): number {
         return this._id;
@@ -29,13 +27,6 @@ export class Group {
     }
     public set userList(value: User[]) {
         this._userList = value;
-    }
-
-    public get expenseList(): Expense[] {
-        return this._expenseList;
-    }
-    public set expenseList(value: Expense[]) {
-        this._expenseList = value;
     }
 
 }

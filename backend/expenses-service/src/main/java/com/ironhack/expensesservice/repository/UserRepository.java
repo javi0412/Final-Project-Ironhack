@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<Users, Integer> {
-    @Query(value = "SELECT * FROM users_balance_sheet", nativeQuery = true)
-    List<Object[]> getNamesFromParty(@Param("id") Integer id);
+    @Query(value = "SELECT balance_sheet FROM users_balance_sheet WHERE users_id=:id", nativeQuery = true)
+    List<Double> getNamesFromParty(@Param("id") Integer id);
 }

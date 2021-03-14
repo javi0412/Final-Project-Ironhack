@@ -1,6 +1,7 @@
 package com.ironhack.expensesservice.controller.impls;
 
 import com.ironhack.expensesservice.controller.dtos.AddGroupDTO;
+import com.ironhack.expensesservice.controller.dtos.BalanceDTO;
 import com.ironhack.expensesservice.controller.dtos.GroupDTO;
 import com.ironhack.expensesservice.controller.interfaces.IGroupController;
 import com.ironhack.expensesservice.service.impls.GroupService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class GroupController implements IGroupController {
 
     @Autowired
@@ -39,5 +40,11 @@ public class GroupController implements IGroupController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public GroupDTO delete(@PathVariable Integer id) {
         return groupService.delete(id);
+    }
+
+    @GetMapping("/balance/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BalanceDTO> getBalance(@PathVariable Integer id){
+        return groupService.getBalance(id);
     }
 }

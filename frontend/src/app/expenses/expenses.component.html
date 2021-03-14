@@ -32,29 +32,18 @@
       </div> 
   </div>
 </form>
-<!--     
-    <form [formGroup]="form">
-        <mat-form-field class="example-full-width">
-            <mat-label for="expenseDescription">Description</mat-label>
-            <input matInput formControlName="description" type=text name="description" [(ngModel)]="description">
-          </mat-form-field><br>
-        <p class="error-msg" *ngIf="descriptionField.hasError('required') && descriptionField.touched && descriptionField.pristine"> Description is required </p>
+<div class="expenses-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Party</mat-label>
+    <mat-select [(ngModel)]="displayedExpensesPartyId" name="partyDisplayed" (selectionChange)="updateExpensesFromDB()">
+      <mat-option [value]="party.id" *ngFor="let party of partyList" >
+        {{party.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div *ngFor="let expense of expenseListDB; let i=index">
+    <h3>{{i+1}} - {{expense.amount}}€  - {{expense.description}} - {{expense.creationDate | date :'short'}} </h3>
 
-        <mat-form-field class="example-full-width">
-            <mat-label for="expenseAmount">Name</mat-label>
-            <input matInput formControlName="amount" type=number name="amount" [(ngModel)]="amount">
-          </mat-form-field><br>
-        <p class="error-msg" *ngIf="amountField.hasError('required') && amountField.touched && amountField.pristine"> Amount is required </p>
+  </div>>
 
-        <mat-form-field appearance="fill">
-            <mat-label for="groupUsers">Users</mat-label>
-            <mat-select [formControl]="paidByField" multiple [(ngModel)]="groupUsersId">
-              <mat-option *ngFor="let user of userList" [value]="user.id">{{user.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <div class="example-button-row">
-            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" (click) = "addGroup()">Submit</button>
-
-          </div>
-
-    </form> -->
+</div>

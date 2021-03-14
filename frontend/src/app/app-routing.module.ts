@@ -7,14 +7,18 @@ import { UserComponent } from './user/user.component';
 import { Expense } from './model/expense';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { GroupComponent } from './group/group.component';
+import { ToDoComponent } from './todo/to-do.component';
+import { BalanceComponent } from './balance/balance.component';
 
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: 'todo', component: ToDoComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'user', component: UserComponent },
   { path: 'group', component: GroupComponent },
   { path: 'expenses', component: ExpensesComponent },
+  { path: 'balance', component: BalanceComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 

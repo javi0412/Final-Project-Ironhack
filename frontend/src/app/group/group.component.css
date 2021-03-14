@@ -1,0 +1,15 @@
+.error-msg{
+    color:red;
+    font-size: 12px;
+}
+
+.container{
+    justify-content: center;
+    width: 250px;
+    margin: 30px;
+}
+
+img.resize {
+    max-width:10%;
+    max-height:10%;
+  }

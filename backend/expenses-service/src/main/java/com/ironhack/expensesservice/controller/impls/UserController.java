@@ -2,6 +2,7 @@ package com.ironhack.expensesservice.controller.impls;
 
 import com.ironhack.expensesservice.controller.dtos.UserDTO;
 import com.ironhack.expensesservice.controller.interfaces.IUserController;
+import com.ironhack.expensesservice.model.Users;
 import com.ironhack.expensesservice.service.impls.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UserController implements IUserController {
 
     @Autowired
@@ -37,5 +39,11 @@ public class UserController implements IUserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO add(@RequestBody UserDTO userDTO) {
         return userService.add(userDTO);
+    }
+
+    @PutMapping("/user/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public UserDTO update(@PathVariable Integer id, @RequestBody Users userDTO) {
+        return userService.update(id, userDTO);
     }
 }

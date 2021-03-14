@@ -1,0 +1,42 @@
+<div class="container">
+  <p> WELCOME!!</p>
+    <form [formGroup]="form">
+
+          <mat-form-field class="example-full-width">
+            <mat-label  for="name">Name</mat-label>
+            <input matInput formControlName="name" type=text name="name" [(ngModel)]="userName">
+          </mat-form-field><br>
+        <p class="error-msg" *ngIf="nameField.hasError('required') && nameField.touched && nameField.pristine"> Name is required </p>
+        <p class="error-msg" *ngIf="nameField.hasError('invalidname') && nameField.touched"> Name format is invalid </p>
+
+
+        <mat-form-field class="example-full-width">
+            <mat-label  for="email">Email</mat-label>
+            <input matInput formControlName="email" type=text name="email" [(ngModel)]="userEmail">
+          </mat-form-field><br>
+        <p class="error-msg" *ngIf="emailField.hasError('required') && emailField.touched"> Email is required</p>
+        <p class="error-msg" *ngIf="emailField.hasError('email') && emailField.touched"> Email format is not valid</p>
+
+        <mat-form-field class="example-full-width">
+            <mat-label  for="phone">Phone number</mat-label>
+            <input matInput formControlName="phone" type=text name="phone" [(ngModel)]="userPhone">
+          </mat-form-field><br>
+        <p class="error-msg" *ngIf="phoneField.hasError('required') && phoneField.touched"> Phone is required</p>
+
+
+        <br><br>
+
+        <button mat-button color="primary" type="submit" [disabled]="form.invalid" (click) = "addUser()">Submit</button>
+
+
+    </form>
+
+    <div>
+      <div  *ngFor="let user of userList; let i=index">
+          <app-user-card  [user]="user" (deleteUserEvent)="deleteUser(i,user.id)"></app-user-card>
+
+      </div>
+    </div>
+
+
+</div>

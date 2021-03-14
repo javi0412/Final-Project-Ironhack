@@ -1,6 +1,8 @@
 package com.ironhack.expensesservice.controller.dtos;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 public class UserDTO {
 
@@ -8,6 +10,7 @@ public class UserDTO {
     private String name;
     private String email;
     private String phone;
+    private Map<String, Double> balanceSheet;
 
     public UserDTO(String name, String email, String phone) {
         this.name = name;
@@ -57,5 +60,11 @@ public class UserDTO {
         this.phone = phone;
     }
 
+    public Map<String, Double> getBalanceSheet() {
+        return balanceSheet;
+    }
 
+    public void setBalanceSheet(Map<String, Double> balanceSheet) {
+        this.balanceSheet = balanceSheet;
+    }
 }

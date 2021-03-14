@@ -94,7 +94,6 @@ public class GroupService implements IGroupService {
         List<Users> userList = new ArrayList<>();
         for(int i = 0;i<addGroupDTO.getUserIdList().size();i++){
             UserDTO userDTO = userService.getById(addGroupDTO.getUserIdList().get(i));
-            userDTOS.add(userDTO);
             Users user = new Users();
             user.setId(userDTO.getId());
             user.setName(userDTO.getName());

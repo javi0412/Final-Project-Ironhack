@@ -19,7 +19,6 @@ public class UserService implements IUserService {
     private UserRepository userRepository;
 
 
-
     public List<UserDTO> getAll() {
         List<UserDTO> usersDTO = new ArrayList<>();
         List<Users> users = userRepository.findAll();
@@ -63,8 +62,6 @@ public class UserService implements IUserService {
         userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
         userDTO.setPhone(user.getPhone());
-        userDTO.setBalanceSheet(user.getBalanceSheet());
-
         userRepository.deleteById(id);
 
         return userDTO;

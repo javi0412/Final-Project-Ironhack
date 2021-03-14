@@ -1,6 +1,7 @@
 package com.ironhack.expensesservice.service.impls;
 
 import com.ironhack.expensesservice.controller.dtos.AddExpenseDTO;
+import com.ironhack.expensesservice.controller.dtos.BalanceDTO;
 import com.ironhack.expensesservice.controller.dtos.ExpenseDTO;
 import com.ironhack.expensesservice.controller.dtos.UserDTO;
 import com.ironhack.expensesservice.model.Expense;
@@ -103,8 +104,6 @@ public class ExpenseService implements IExpenseService {
 
     }
 
-
-
     public ExpenseDTO deleteExpense(Integer id) {
         if(!expenseRepository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Expense not found");
@@ -125,6 +124,15 @@ public class ExpenseService implements IExpenseService {
         expenseRepository.deleteById(id);
         return expenseDTO;
     }
+
+//    public BalanceDTO getPartyBalance(Integer id){
+//        List<Object[]> partyNames = userRepository.getNamesFromParty(id);
+//        BalanceDTO balanceDTO = new BalanceDTO();
+//        for(int i = 0; i<partyNames.size(); i++){
+//
+//        }
+//
+//    }
 
 
 }

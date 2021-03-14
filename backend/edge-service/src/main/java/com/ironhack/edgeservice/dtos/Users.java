@@ -6,7 +6,6 @@ import java.util.Map;
 
 public class Users {
 
-
     private Integer id;
     private String name;
     private String email;

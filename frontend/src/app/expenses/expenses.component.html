@@ -1,0 +1,60 @@
+<form [formGroup]="form">
+  <div class="container">
+      <mat-form-field appearance="fill">
+        <mat-label for="expensePartyId">Party</mat-label>
+        <mat-select [formControl]="partyIdField" [(value)]="partyId" (selectionChange)="onPartyChange($event)">
+          <mat-option></mat-option>
+          <mat-option [value]="party.id" *ngFor="let party of partyList">{{ party.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label for="expenseDescription">Description</mat-label>
+        <input matInput formControlName="expenseDescription" type=text name="expenseDescription" [(ngModel)]="description">
+      </mat-form-field><br>
+    <p class="error-msg" *ngIf="descriptionField.hasError('required') && descriptionField.touched && descriptionField.pristine"> Description is required </p>
+
+ <mat-form-field class="example-full-width">
+        <mat-label for="expenseAmount">Amount</mat-label>
+        <input matInput formControlName="expenseAmount" type=number name="expenseAmount" [(ngModel)]="amount">
+      </mat-form-field><br>
+    <p class="error-msg" *ngIf="amountField.invalid && amountField.touched && amountField.pristine"> Enter a valid amount </p> 
+
+    <mat-form-field appearance="fill">
+        <mat-label for="expensePaidBy">Paid by</mat-label>
+        <mat-select [formControl]="paidByField"  [(value)]="paidById">
+          <mat-option *ngFor="let user of selectedPartyUserList"   [value]="user.id">{{user.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="example-button-row">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" (click) = "addExpense()">Submit</button>
+
+      </div> 
+  </div>
+</form>
+<!--     
+    <form [formGroup]="form">
+        <mat-form-field class="example-full-width">
+            <mat-label for="expenseDescription">Description</mat-label>
+            <input matInput formControlName="description" type=text name="description" [(ngModel)]="description">
+          </mat-form-field><br>
+        <p class="error-msg" *ngIf="descriptionField.hasError('required') && descriptionField.touched && descriptionField.pristine"> Description is required </p>
+
+        <mat-form-field class="example-full-width">
+            <mat-label for="expenseAmount">Name</mat-label>
+            <input matInput formControlName="amount" type=number name="amount" [(ngModel)]="amount">
+          </mat-form-field><br>
+        <p class="error-msg" *ngIf="amountField.hasError('required') && amountField.touched && amountField.pristine"> Amount is required </p>
+
+        <mat-form-field appearance="fill">
+            <mat-label for="groupUsers">Users</mat-label>
+            <mat-select [formControl]="paidByField" multiple [(ngModel)]="groupUsersId">
+              <mat-option *ngFor="let user of userList" [value]="user.id">{{user.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" (click) = "addGroup()">Submit</button>
+
+          </div>
+
+    </form> -->

@@ -1,0 +1,36 @@
+<div class="container">
+    <form [formGroup]="form">
+        <mat-form-field class="example-full-width">
+            <mat-label for="groupName">Name</mat-label>
+            <input matInput formControlName="groupName" type=text name="groupName" [(ngModel)]="groupName">
+          </mat-form-field><br>
+        <p class="error-msg" *ngIf="nameField.hasError('required') && nameField.touched && nameField.pristine"> Name is required </p>
+
+        <mat-form-field appearance="fill">
+            <mat-label for="groupUsers">Users</mat-label>
+            <mat-select [formControl]="usersField" multiple [(ngModel)]="groupUsersId">
+              <mat-option *ngFor="let user of userList" [value]="user.id">{{user.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid" (click) = "addGroup()">Submit</button>
+
+          </div>
+
+    </form>
+  
+</div>
+
+<div class = "container" *ngFor="let group of partyList;let j=index">
+  <mat-card class="example-card">
+    <mat-card-title>{{group.name}}</mat-card-title>
+    <mat-card-content>
+
+    <div *ngFor="let user of group.userList; let i=index">
+      <app-user-card [user]="user"></app-user-card>
+    </div>
+  </mat-card-content>
+
+  </mat-card>
+
+</div>
